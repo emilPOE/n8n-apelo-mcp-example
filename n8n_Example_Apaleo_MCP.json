@@ -1,96 +1,52 @@
 {
-  "name": "n8n Example Apaleo MCP",
+  "name": "Example",
   "nodes": [
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}\n\nYou are MCP-Agent, an LLM assistant driven by a live registry of tools (each with an internal name, a human description, and a JSON schema). Your goal is to turn user requests—simple or complex—into the minimal JSON tool-calls needed.\nWhen gicing a offer, always give the Rate Plan ID.\n\n",
-        "options": {}
+        "content": "## 3. MCP Server Token\n**❗ CREDENTIALS REQUIRED ❗**\n\n**Setup:**\n1. Create Bearer Auth Credential\n2. In \"Bearer Token\" field, enter this expression:\n   {{$(\"Get Access Token\").item.json.access_token}}\n\n**How it works:**\n• Automatically gets the access token from the previous node\n• No manual token management needed\n• Updates automatically when token refreshes",
+        "height": 560,
+        "width": 400,
+        "color": 6
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.8,
-      "position": [
-        2152,
-        -220
-      ],
-      "id": "464e21f5-eb48-407d-9d4f-b877e0f25cc8",
-      "name": "AI Agent",
-      "alwaysOutputData": false
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        2020,
-        120
-      ],
-      "id": "f6222579-596b-474e-a22e-16f2159b5105",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "ajIUF8l1o5kdnY7W",
-          "name": "OpenAI API Key"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        1680,
-        -220
-      ],
-      "id": "52ea47c2-5630-4962-b614-2170096a087c",
-      "name": "When chat message received",
-      "webhookId": "203790f0-23b8-4841-86a0-8f333c184f78"
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('When chat message received').item.json.sessionId }}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        2240,
-        0
-      ],
-      "id": "2e438f35-a5a4-4630-8c4a-c2279651f4b5",
-      "name": "Simple Memory"
-    },
-    {
-      "parameters": {
-        "sseEndpoint": "https://mcp.apaleo.com/sse/",
-        "authentication": "bearerAuth",
-        "include": "selected",
-        "includeTools": "={{ [\n  \"ListProperties\",\n  \"CountProperties\", \n  \"ListUnits\",\n  \"CountUnits\",\n  \"ListUnitAttributes\",\n  \"ListGroups\",\n  \"ListBlocks\", \n  \"ListMaintenances\",\n  \"CountMaintenances\",\n  \"ListNoShowPolicies\",\n  \"CountServices\",\n  \"GetAvailableUnits\",\n  \"RunNightAudit\"\n] }}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2540,
-        80
+        240,
+        -400
       ],
-      "id": "2e93b429-0130-460b-926d-a820bf79508d",
-      "name": "Apaleo MCP",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "EgtVSJVi8AqmPhpo",
-          "name": "Bearer Auth account"
-        }
-      }
+      "id": "34d04235-9f57-4112-b5a6-8c5b20b9e3e3",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## 2. OpenAI Credentials\n**❗ CREDENTIALS REQUIRED ❗**\n\n**Setup:**\n1. Create OpenAI API Credential\n2. Insert API Key from OpenAI Platform\n\n**OpenAI Platform:**\n• https://platform.openai.com/\n• API Keys → Create new secret key\n• Billing setup required\n\n**Model:** GPT-4o (recommended)",
+        "height": 320,
+        "width": 440,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        0
+      ],
+      "id": "a5a4c427-1011-4970-9641-951840625a96",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 1. Apaleo Credentials\n**❗ CREDENTIALS REQUIRED ❗**\n\n**Setup:**\n1. Create HTTP Basic Auth Credential\n2. Username: Your Apaleo Client ID\n3. Password: Your Apaleo Client Secret\n\n**Apaleo Developer Portal:**\n• https://apaleo.dev/index.html\n• Create account → Register app\n• Copy Client Credentials\n\n**Scopes:** Depends on tools used\n(e.g. inventory.read, booking.read, etc.)",
+        "height": 620,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -660
+      ],
+      "id": "8a81a5bf-b5ae-424a-be07-a50ce72ac93b",
+      "name": "Sticky Note"
     },
     {
       "parameters": {
@@ -107,76 +63,112 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1900,
-        -220
+        -400,
+        -240
       ],
-      "id": "e2bfb557-6ae6-46b2-a8bd-e493a210018a",
+      "id": "2d095b70-ec03-476e-ae83-1e6e3a5383ce",
       "name": "Get Access Token",
       "credentials": {
         "httpBasicAuth": {
-          "id": "bJADduG1grmjz85B",
-          "name": "identity-prod"
+          "id": "x7AKpBQgmtKoIznS",
+          "name": "Unnamed credential"
         }
       }
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.stickyNote",
+      "parameters": {
+        "sseEndpoint": "https://mcp.apaleo.com/sse/",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": "={{ [\n  \"ListProperties\",\n  \"CountProperties\", \n  \"ListUnits\",\n  \"CountUnits\",\n  \"ListUnitAttributes\",\n  \"ListGroups\",\n  \"ListBlocks\", \n  \"ListMaintenances\",\n  \"CountMaintenances\",\n  \"ListNoShowPolicies\",\n  \"CountServices\",\n  \"GetAvailableUnits\",\n  \"RunNightAudit\"\n] }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
       "typeVersion": 1,
       "position": [
-        1820,
-        -420
+        340,
+        20
       ],
-      "id": "91e1aedc-1161-4a70-af47-2080b9cc197e",
-      "name": "Sticky Note"
+      "id": "35e0f17d-f225-4397-bc9e-c689c3803552",
+      "name": "Apaleo MCP",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "WJ3reCNxaUlIQYK5",
+          "name": "Bearer Auth account 2"
+        }
+      }
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('When chat message received').item.json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
       "position": [
-        2180,
-        -420
+        20,
+        -20
       ],
-      "id": "9ac760ba-c791-4c72-9c94-d8c0f8a06fb6",
-      "name": "Sticky Note1"
+      "id": "86a6fb06-7dc9-46ee-9625-23b54bbe8459",
+      "name": "Simple Memory"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
       "position": [
-        2460,
-        -100
+        -660,
+        -240
       ],
-      "id": "7035014a-398d-4f09-9533-77f6647911be",
-      "name": "Sticky Note2"
+      "id": "0bb3db92-6c57-4847-9419-4b7ae4a4fcf2",
+      "name": "When chat message received",
+      "webhookId": "203790f0-23b8-4841-86a0-8f333c184f78"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        1960,
-        -60
+        -160,
+        120
       ],
-      "id": "106a5855-8780-460d-900d-2c4d6560692e",
-      "name": "Sticky Note3"
+      "id": "c240ff8c-b115-4aa1-96fe-4958468e3ec2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Lk4fkjibIvGtni2A",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}\n\nYou are MCP-Agent, an LLM assistant driven by a live registry of tools (each with an internal name, a human description, and a JSON schema). Your goal is to turn user requests—simple or complex—into the minimal JSON tool-calls needed.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -80,
+        -240
+      ],
+      "id": "62930d20-aaab-49c5-b87c-7377ac7dc217",
+      "name": "AI Agent",
+      "alwaysOutputData": false
     }
   ],
   "pinData": {},
   "connections": {
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "When chat message received": {
       "main": [
         [
@@ -188,12 +180,12 @@
         ]
       ]
     },
-    "Simple Memory": {
-      "ai_memory": [
+    "Get Access Token": {
+      "main": [
         [
           {
             "node": "AI Agent",
-            "type": "ai_memory",
+            "type": "main",
             "index": 0
           }
         ]
@@ -210,12 +202,23 @@
         ]
       ]
     },
-    "Get Access Token": {
-      "main": [
+    "Simple Memory": {
+      "ai_memory": [
         [
           {
             "node": "AI Agent",
-            "type": "main",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -226,11 +229,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d73b7ea7-57ad-4b67-915d-0da80e51a8f8",
+  "versionId": "6c5a2e13-5717-4af1-b99b-1918fa2d7914",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "368629e78457d61416bc78e196c3f5dba5296a615424f12489d38bb4f6a9d6ff"
+    "instanceId": "9983d206bdc0bf150e30682be1b12f4b07859be34c530aee94b2c166513f9d82"
   },
-  "id": "SLVhTJdLWwye15JE",
+  "id": "6U0l8uIg7DnoUnaV",
   "tags": []
 }
